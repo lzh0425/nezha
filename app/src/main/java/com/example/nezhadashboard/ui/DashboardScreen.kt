@@ -81,7 +81,7 @@ fun DashboardScreen(viewModel: NezhaViewModel) {
                 OutlinedTextField(
                     value = urlInput,
                     onValueChange = { urlInput = it },
-                    label = { Text("面板地址 (如 https://status.example.com)") },
+                    label = { Text("面板地址") },
                     modifier = Modifier.weight(1f)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
@@ -103,6 +103,7 @@ fun DashboardScreen(viewModel: NezhaViewModel) {
                             val memUsed = (srv.state?.memUsed ?: 0L) / (1024 * 1024)
                             val memTotal = (srv.host?.memTotal ?: 1L) / (1024 * 1024)
                             val memRatio = if (memTotal > 0) (memUsed.toFloat() / memTotal.toFloat()).coerceIn(0f, 1f) else 0f
+                            val cpuRatio = (cpu / 100.0).toFloat().coerceIn(0f, 1f)
 
                             Card(modifier = Modifier.fillMaxWidth()) {
                                 Column(modifier = Modifier.padding(12.dp)) {
@@ -119,7 +120,7 @@ fun DashboardScreen(viewModel: NezhaViewModel) {
                                     Spacer(modifier = Modifier.height(6.dp))
                                     Text("CPU: ${String.format("%.1f", cpu)}%")
                                     LinearProgressIndicator(
-                                        progress = { (cpu / 100f).toFloat().coerceIn(0f, 1f) },
+                                        progress = { cpuRatio },
                                         modifier = Modifier.fillMaxWidth()
                                     )
                                     Spacer(modifier = Modifier.height(6.dp))
